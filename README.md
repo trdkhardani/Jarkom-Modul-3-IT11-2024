@@ -33,6 +33,9 @@
 - [nomer 20](#nomer-20)
 
 ## TOPOLOGI
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/e39a9422-c50c-4295-8560-1ec2a1111069)
+
 ## KONFIGURASI
 ### ARAKIS (DHCP RELAY)
 ```
