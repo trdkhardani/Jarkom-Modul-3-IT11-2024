@@ -8,29 +8,51 @@
 
 
 ## DAFTAR ISI
-- [TOPOLOGI](#topologi)
-- [KONFIGURASI](#konfigurasi)
-- [IP ADDRESS](#ip-address)
-- [nomer 0 & 1](#nomer-0-&-1)
-- [nomer 2](#nomer-2)
-- [nomer 3](#nomer-3)
-- [nomer 4](#nomer-4)
-- [nomer 5](#nomer-5)
-- [nomer 6](#nomer-6)
-- [nomer 7](#nomer-7)
-- [nomer 8](#nomer-8)
-- [nomer 9](#nomer-9)
-- [nomer 10](#nomer-10)
-- [nomer 11](#nomer-11)
-- [nomer 12](#nomer-12)
-- [nomer 13](#nomer-13)
-- [nomer 14](#nomer-14)
-- [nomer 15](#nomer-15)
-- [nomer 16](#nomer-16)
-- [nomer 17](#nomer-17)
-- [nomer 18](#nomer-18)
-- [nomer 19](#nomer-19)
-- [nomer 20](#nomer-20)
+- [Jarkom-Modul-3-IT11-2024](#jarkom-modul-3-it11-2024)
+	- [Kelompok IT11](#kelompok-it11)
+	- [DAFTAR ISI](#daftar-isi)
+	- [TOPOLOGI](#topologi)
+	- [KONFIGURASI](#konfigurasi)
+		- [ARAKIS (DHCP RELAY)](#arakis-dhcp-relay)
+		- [IRULAN (DNS SERVER)](#irulan-dns-server)
+		- [MOHIAM (DHCP SERVER)](#mohiam-dhcp-server)
+		- [CHANI (DATABASE SERVER)](#chani-database-server)
+		- [STILGAR (LOAD BALANCER)](#stilgar-load-balancer)
+		- [LETO (LARAVEL WORKER)](#leto-laravel-worker)
+		- [DUNCAN (LARAVEL WORKER)](#duncan-laravel-worker)
+		- [JESSICA (LARAVEL WORKER)](#jessica-laravel-worker)
+		- [PAUL (CLIENT)](#paul-client)
+		- [VLADIMIR (PHP WORKER)](#vladimir-php-worker)
+		- [RABBAN (PHP WORKER)](#rabban-php-worker)
+		- [FEYD (PHP WORKER)](#feyd-php-worker)
+		- [DMITRI (CLIENT)](#dmitri-client)
+	- [IP ADDRESS](#ip-address)
+	- [JAWABAN](#jawaban)
+		- [nomer 0 \& 1](#nomer-0--1)
+		- [nomer 2](#nomer-2)
+		- [nomer 3](#nomer-3)
+		- [nomer 4](#nomer-4)
+		- [nomer 5](#nomer-5)
+		- [nomer 6](#nomer-6)
+		- [nomer 7](#nomer-7)
+		- [nomer 8](#nomer-8)
+		- [nomer 9](#nomer-9)
+		- [nomer 10](#nomer-10)
+		- [nomer 11](#nomer-11)
+		- [nomer 12](#nomer-12)
+		- [nomer 13](#nomer-13)
+			- [Script (Chani)](#script-chani)
+			- [Hasil](#hasil)
+			- [Leto](#leto)
+			- [Duncan](#duncan)
+			- [Jessica](#jessica)
+		- [nomer 14](#nomer-14)
+		- [nomer 15](#nomer-15)
+		- [nomer 16](#nomer-16)
+		- [nomer 17](#nomer-17)
+		- [nomer 18](#nomer-18)
+		- [nomer 19](#nomer-19)
+		- [nomer 20](#nomer-20)
 
 ## TOPOLOGI
 
@@ -184,7 +206,62 @@ iface eth0 inet dhcp
 ### nomer 10
 ### nomer 11
 ### nomer 12
+
 ### nomer 13
+Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica.
+
+#### Script (Chani)
+```bash
+echo '# This group is read both by the client and the server
+# use it for options that affect everything
+[client-server]
+
+# Import all .cnf files from configuration directory
+!includedir /etc/mysql/conf.d/
+!includedir /etc/mysql/mariadb.conf.d/
+
+# Options affecting the MySQL server (mysqld)
+[mysqld]
+skip-networking=0
+skip-bind-address
+' > /etc/mysql/my.cnf
+
+echo "REMINDER 1: Ubah [bind-address] pada file /etc/mysql/mariadb.conf.d/50-server.cnf menjadi 0.0.0.0"
+echo "REMINDER 2: Jalankan -service mysql restart-"
+```
+Jalankan ini di Chani (DB) Setelah menjalankan Script tersebut:
+
+```
+mysql -u root -p
+Enter password: (kosongkan password, langsung enter)
+
+CREATE USER 'it11'@'%' IDENTIFIED BY 'it11';
+CREATE USER 'it11'@'localhost' IDENTIFIED BY 'it11';
+CREATE DATABASE db_it11;
+GRANT ALL PRIVILEGES ON *.* TO 'it11'@'%';
+GRANT ALL PRIVILEGES ON *.* TO 'it11'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+Setelah itu, jalankan ini pada semua Laravel Workers untuk memeriksa koneksi ke database:
+
+
+```bash
+mariadb --host=10.69.4.2 --port=3306 --user=it11 --password=it11 db_it11 -e "SHOW DATABASES;"
+```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+#### Leto
+![no13-Leto](/images/no13-Leto.png)
+
+#### Duncan
+![no13-Duncan](/images/no13-Duncan.png)
+
+#### Jessica
+![no13-Jessica](/images/no13-Jessica.png)
+
 ### nomer 14
 ### nomer 15
 ### nomer 16
