@@ -53,6 +53,8 @@
 			- [Script (Client)](#script-client)
 			- [Hasil](#hasil-2)
 		- [nomer 16](#nomer-16)
+			- [Script (Client)](#script-client-1)
+			- [Hasil](#hasil-3)
 		- [nomer 17](#nomer-17)
 		- [nomer 18](#nomer-18)
 		- [nomer 19](#nomer-19)
@@ -409,9 +411,27 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 
 ![no15](/images/no15.png)
 
-Request yang berhasil hanya satu karena username itu bersifat unique pada database **db_it11**, tabel **users** dan juga validasi dari endpoint API /api/auth/register, sedangkan file register.json hanya dijalankan secara statis selama 100 kali.
+Request yang berhasil hanya satu karena username itu bersifat unique pada database **db_it11**, tabel **users** dan juga validasi dari **endpoint API** ```/api/auth/register``` yang mengharuskan username itu bersifat unique, sedangkan file **register.json** hanya dijalankan secara statis selama 100 kali.
 
 ### nomer 16
+atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. POST /auth/login
+
+#### Script (Client)
+```bash
+echo '
+{
+  "username": "it11",
+  "password": "it11haha"
+}' > login.json
+
+ab -n 100 -c 10 -p login.json -T application/json http://10.69.2.3:8001/api/auth/login
+```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+![no16](/images/no16.png)
+
 ### nomer 17
 ### nomer 18
 ### nomer 19
