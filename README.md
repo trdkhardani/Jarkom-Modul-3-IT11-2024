@@ -50,6 +50,8 @@
 			- [Script (Laravel Workers - Leto, Duncan, Jessica)](#script-laravel-workers---leto-duncan-jessica)
 			- [Hasil](#hasil-1)
 		- [nomer 15](#nomer-15)
+			- [Script (Client)](#script-client)
+			- [Hasil](#hasil-2)
 		- [nomer 16](#nomer-16)
 		- [nomer 17](#nomer-17)
 		- [nomer 18](#nomer-18)
@@ -389,6 +391,26 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas dan menj
 ![no14](/images/no14.png)
 
 ### nomer 15
+atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. POST /auth/register.
+
+#### Script (Client)
+```bash
+echo '
+{
+  "username": "it11",
+  "password": "it11haha"
+}' > register.json
+
+ab -n 100 -c 10 -p register.json -T application/json http://10.69.2.3:8001/api/auth/register
+```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+![no15](/images/no15.png)
+
+Request yang berhasil hanya satu karena username itu bersifat unique pada database **db_it11**, tabel **users** dan juga validasi dari endpoint API /api/auth/register, sedangkan file register.json hanya dijalankan secara statis selama 100 kali.
+
 ### nomer 16
 ### nomer 17
 ### nomer 18
