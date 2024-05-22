@@ -28,39 +28,51 @@
 		- [DMITRI (CLIENT)](#dmitri-client)
 	- [IP ADDRESS](#ip-address)
 	- [JAWABAN](#jawaban)
-		- [nomer 0 \& 1](#nomer-0--1)
-		- [nomer 2](#nomer-2)
-		- [nomer 3](#nomer-3)
-		- [nomer 4](#nomer-4)
-		- [nomer 5](#nomer-5)
-		- [nomer 6](#nomer-6)
-		- [nomer 7](#nomer-7)
-		- [nomer 8](#nomer-8)
-		- [nomer 9](#nomer-9)
-		- [nomer 10](#nomer-10)
-		- [nomer 11](#nomer-11)
-		- [nomer 12](#nomer-12)
-		- [nomer 13](#nomer-13)
+		- [Nomor 0 \& 1](#nomor-0--1)
+		- [Nomor 2](#nomor-2)
+		- [Nomor 3](#nomor-3)
+		- [Nomor 4](#nomor-4)
+		- [Nomor 5](#nomor-5)
+		- [Nomor 6](#nomor-6)
+		- [Nomor 7](#nomor-7)
+		- [Nomor 8](#nomor-8)
+		- [Nomor 9](#nomor-9)
+		- [Nomor 10](#nomor-10)
+		- [Nomor 11](#nomor-11)
+		- [Nomor 12](#nomor-12)
+		- [Nomor 13](#nomor-13)
 			- [Script (Chani)](#script-chani)
 			- [Hasil](#hasil)
 			- [Leto](#leto)
 			- [Duncan](#duncan)
 			- [Jessica](#jessica)
-		- [nomer 14](#nomer-14)
+		- [Nomor 14](#nomor-14)
 			- [Script (Laravel Workers - Leto, Duncan, Jessica)](#script-laravel-workers---leto-duncan-jessica)
 			- [Hasil](#hasil-1)
-		- [nomer 15](#nomer-15)
+		- [Nomor 15](#nomor-15)
 			- [Script (Client)](#script-client)
 			- [Hasil](#hasil-2)
-		- [nomer 16](#nomer-16)
+		- [Nomor 16](#nomor-16)
 			- [Script (Client)](#script-client-1)
 			- [Hasil](#hasil-3)
-		- [nomer 17](#nomer-17)
+		- [Nomor 17](#nomor-17)
 			- [Script (Client)](#script-client-2)
 			- [Hasil](#hasil-4)
-		- [nomer 18](#nomer-18)
-		- [nomer 19](#nomer-19)
-		- [nomer 20](#nomer-20)
+		- [Nomor 18](#nomor-18)
+			- [Script (Irulan)](#script-irulan)
+			- [Script (Stilgar)](#script-stilgar)
+			- [Hasil](#hasil-5)
+		- [Nomor 19](#nomor-19)
+			- [Script 1 (Laravel Workers - Leto, Duncan, Jessica)](#script-1-laravel-workers---leto-duncan-jessica)
+			- [Script 2 (Laravel Workers - Leto, Duncan, Jessica)](#script-2-laravel-workers---leto-duncan-jessica)
+			- [Script 3 (Laravel Workers - Leto, Duncan, Jessica)](#script-3-laravel-workers---leto-duncan-jessica)
+			- [Script 4 (Laravel Workers - Leto, Duncan, Jessica)](#script-4-laravel-workers---leto-duncan-jessica)
+			- [Hasil (Script 1)](#hasil-script-1)
+			- [Hasil (Script 2)](#hasil-script-2)
+			- [Hasil (Script 3)](#hasil-script-3)
+			- [Hasil (Script 4)](#hasil-script-4)
+			- [Analisis](#analisis)
+		- [Nomor 20](#nomor-20)
 
 ## TOPOLOGI
 
@@ -202,20 +214,20 @@ iface eth0 inet dhcp
 
 
 ## JAWABAN
-### nomer 0 & 1
-### nomer 2
-### nomer 3
-### nomer 4
-### nomer 5
-### nomer 6
-### nomer 7
-### nomer 8
-### nomer 9
-### nomer 10
-### nomer 11
-### nomer 12
+### Nomor 0 & 1
+### Nomor 2
+### Nomor 3
+### Nomor 4
+### Nomor 5
+### Nomor 6
+### Nomor 7
+### Nomor 8
+### Nomor 9
+### Nomor 10
+### Nomor 11
+### Nomor 12
 
-### nomer 13
+### Nomor 13
 Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica.
 
 #### Script (Chani)
@@ -270,7 +282,7 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 #### Jessica
 ![no13-Jessica](/images/no13-Jessica.png)
 
-### nomer 14
+### Nomor 14
 Leto, Duncan, dan Jessica memiliki atreides Channel sesuai dengan [quest guide](https://github.com/martuafernando/laravel-praktikum-jarkom) berikut. Jangan lupa melakukan instalasi PHP8.0 dan Composer (14)
 
 #### Script (Laravel Workers - Leto, Duncan, Jessica)
@@ -394,7 +406,7 @@ service nginx restart
 Screenshot di bawah ini merupakan hasil dari menjalankan script di atas dan menjalankan ```lynx 10.69.2.3:8001``` (**web server Leto**) dari Client.
 ![no14](/images/no14.png)
 
-### nomer 15
+### Nomor 15
 atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```POST /auth/register```.
 
 #### Script (Client)
@@ -415,7 +427,7 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 
 Request yang berhasil hanya satu karena username itu bersifat unique pada database **db_it11**, tabel **users** dan juga validasi dari **endpoint API** ```/api/auth/register``` yang mengharuskan username itu bersifat unique, sedangkan file **register.json** hanya dijalankan secara statis selama 100 kali.
 
-### nomer 16
+### Nomor 16
 atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```POST /auth/login```
 
 #### Script (Client)
@@ -434,7 +446,7 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 
 ![no16](/images/no16.png)
 
-### nomer 17
+### Nomor 17
 atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```GET /me```
 
 #### Script (Client)
@@ -454,6 +466,182 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 
 ![no17](/images/no17.png)
 
-### nomer 18
-### nomer 19
-### nomer 20
+### Nomor 18
+Untuk memastikan ketiganya bekerja sama secara adil untuk mengatur atreides Channel maka implementasikan Proxy Bind pada Stilgar untuk mengaitkan IP dari Leto, Duncan, dan Jessica.
+
+#### Script (Irulan)
+```bash
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     atreides.it11.com. root.atreides.it11.com. (
+                        2023111401      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      atreides.it11.com.
+@       IN      A       10.69.4.3     ; IP Stilgar
+www     IN      CNAME   atreides.it11.com.' > /etc/bind/sites/atreides.it11.com
+
+service bind9 restart
+```
+
+#### Script (Stilgar)
+```bash
+echo 'upstream worker {
+    server 10.69.2.3:8001;
+    server 10.69.2.4:8002;
+    server 10.69.2.5:8003;
+}
+
+server {
+    listen 80;
+    server_name atreides.it11.com www.atreides.it11.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+}
+' > /etc/nginx/sites-available/laravel-lb
+
+ln -s /etc/nginx/sites-available/laravel-lb /etc/nginx/sites-enabled/laravel-lb
+rm -rf /etc/nginx/sites-enabled/default
+
+service nginx restart
+```
+Setelah menjalankan kedua script di atas, jalankan apache benchmark dari Client.
+
+```ab -n 100 -c 10 -p login.json -T application/json http://atreides.it11.com/api/auth/login```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+![no18](/images/no18.png)
+
+### Nomor 19
+Untuk meningkatkan performa dari Worker, coba implementasikan PHP-FPM pada Leto, Duncan, dan Jessica. Untuk testing kinerja naikkan:
+* pm.max_children
+* pm.start_servers
+* pm.min_spare_servers
+* pm.max_spare_servers
+
+sebanyak tiga percobaan dan lakukan testing sebanyak 100 request dengan 10 request/second kemudian berikan hasil analisisnya pada PDF.
+
+#### Script 1 (Laravel Workers - Leto, Duncan, Jessica)
+```bash
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 6
+pm.start_servers = 4
+pm.min_spare_servers = 2
+pm.max_spare_servers = 4' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+#### Script 2 (Laravel Workers - Leto, Duncan, Jessica)
+```bash
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 8
+pm.start_servers = 6
+pm.min_spare_servers = 4
+pm.max_spare_servers = 7' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+#### Script 3 (Laravel Workers - Leto, Duncan, Jessica)
+```bash
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 11
+pm.start_servers = 9
+pm.min_spare_servers = 6
+pm.max_spare_servers = 10' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+
+#### Script 4 (Laravel Workers - Leto, Duncan, Jessica)
+```bash
+echo '[www]
+user = www-data
+group = www-data
+listen = /run/php/php8.0-fpm.sock
+listen.owner = www-data
+listen.group = www-data
+php_admin_value[disable_functions] = exec,passthru,shell_exec,system
+php_admin_flag[allow_url_fopen] = off
+
+; Choose how the process manager will control the number of child processes.
+
+pm = dynamic
+pm.max_children = 15
+pm.start_servers = 13
+pm.min_spare_servers = 10
+pm.max_spare_servers = 14' > /etc/php/8.0/fpm/pool.d/www.conf
+
+service php8.0-fpm restart
+```
+Setelah menjalankan keempat script di atas secara berurutan dari Script 1 untuk masing-masing Laravel Workers, jalankan apache benchmark dari Client.
+
+```ab -n 100 -c 10 -p login.json -T application/json http://atreides.it11.com/api/auth/login```
+
+#### Hasil (Script 1)
+Screenshot di bawah ini merupakan hasil dari menjalankan Script 1.
+
+![no19-script1](/images/no19-script1.png)
+
+#### Hasil (Script 2)
+Screenshot di bawah ini merupakan hasil dari menjalankan Script 2.
+
+![no19-script2](/images/no19-script2.png)
+
+#### Hasil (Script 3)
+Screenshot di bawah ini merupakan hasil dari menjalankan Script 3.
+
+![no19-script3](/images/no19-script3.png)
+
+#### Hasil (Script 4)
+Screenshot di bawah ini merupakan hasil dari menjalankan Script 4.
+
+![no19-script4](/images/no19-script4.png)
+
+#### Analisis
+Berdasarkan hasil benchmark dari testing keempat script untuk masing-masing workers, didapati bahwa semakin tinggi nilai yang diberikan untuk masing-masing ```pm.max_children```, ```pm.start_servers```, ```pm.min_spare_servers```, dan ```pm.max_spare_servers``` maka semakin cepat suatu request akan diproses oleh workers.
+
+### Nomor 20
