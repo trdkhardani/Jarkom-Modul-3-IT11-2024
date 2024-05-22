@@ -26,6 +26,15 @@
 		- [RABBAN (PHP WORKER)](#rabban-php-worker)
 		- [FEYD (PHP WORKER)](#feyd-php-worker)
 		- [DMITRI (CLIENT)](#dmitri-client)
+	- [SETUP .bashrc](#setup-bashrc)
+		- [ARAKIS (DHCP RELAY)](#arakis-dhcp-relay-1)
+		- [IRULAN (DNS SERVER)](#irulan-dns-server-1)
+		- [MOHIAM (DHCP SERVER)](#mohiam-dhcp-server-1)
+		- [CHANI (DATABASE SERVER)](#chani-database-server-1)
+		- [VLADIMIR, RAABAN, FEYD (PHP WORKER)](#vladimir-raaban-feyd-php-worker)
+		- [LETO, DUNCAN, JESSICA (LARAVEL WORKER)](#leto-duncan-jessica-laravel-worker)
+		- [STILGAR (LOAD BALANCER)](#stilgar-load-balancer-1)
+		- [DMITRI, PAUL (CLIENT)](#dmitri-paul-client)
 	- [IP ADDRESS](#ip-address)
 	- [JAWABAN](#jawaban)
 		- [Nomor 0 \& 1](#nomor-0--1)
@@ -197,6 +206,96 @@ iface eth0 inet static
 auto eth0
 iface eth0 inet dhcp
 ```
+
+## SETUP .bashrc
+Untuk melakukan instalasi package dan konfigurasi secara otomatis setelah melakukan start pada nodes.
+
+### ARAKIS (DHCP RELAY)
+```bash
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.69.0.0/16
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+apt-get update
+apt install isc-dhcp-relay -y
+service isc-dhcp-relay start
+```
+
+### IRULAN (DNS SERVER)
+```bash
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf
+apt-get update
+apt-get install bind9 -y  
+```
+
+### MOHIAM (DHCP SERVER)
+```bash
+echo 'nameserver 10.69.3.2' > /etc/resolv.conf   # DNS Server 
+apt-get update
+apt install isc-dhcp-server -y
+```
+
+### CHANI (DATABASE SERVER)
+```bash
+echo 'nameserver 10.69.3.2' > /etc/resolv.conf   # DNS Server
+apt-get update
+apt-get install mariadb-server -y
+service mysql start
+```
+
+### VLADIMIR, RAABAN, FEYD (PHP WORKER)
+```bash
+echo 'nameserver 192.168.122.1' > /etc/resolv.conf  
+apt-get update
+apt-get install nginx -y
+apt-get install wget -y
+apt-get install unzip -y
+apt-get install lynx -y
+apt-get install htop -y
+apt-get install apache2-utils -y
+apt-get install php7.3-fpm php7.3-common php7.3-mysql php7.3-gmp php7.3-curl php7.3-intl php7.3-mbstring php7.3-xmlrpc php7.3-gd php7.3-xml php7.3-cli php7.3-zip -y
+echo 'nameserver 10.69.3.2' > /etc/resolv.conf
+
+service nginx start
+service php7.3-fpm start
+```
+
+### LETO, DUNCAN, JESSICA (LARAVEL WORKER)
+```bash
+echo 'deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ buster main' > /etc/apt/sources.list.d/php.list
+echo 'nameserver 10.69.3.2' > /etc/resolv.conf
+apt-get update
+apt-get install lynx -y
+apt-get install mariadb-client -y
+apt-get install -y lsb-release ca-certificates apt-transport-https software-properties-common gnupg2
+curl -sSLo /usr/share/keyrings/deb.sury.org-php.gpg https://packages.sury.org/php/apt.gpg
+sh -c 'echo "deb [signed-by=/usr/share/keyrings/deb.sury.org-php.gpg] https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'
+apt-get update
+apt-get install php8.0-mbstring php8.0-xml php8.0-cli   php8.0-common php8.0-intl php8.0-opcache php8.0-readline php8.0-mysql php8.0-fpm php8.0-curl unzip wget -y
+apt-get install nginx -y
+
+service nginx start
+service php8.0-fpm start
+```
+
+### STILGAR (LOAD BALANCER)
+```bash
+echo 'nameserver 10.69.3.2' > /etc/resolv.conf   # DNS Server
+apt-get update
+apt-get install apache2-utils -y
+apt-get install nginx -y
+apt-get install lynx -y
+
+service nginx start
+```
+
+### DMITRI, PAUL (CLIENT)
+```bash
+apt update
+apt install lynx -y
+apt install htop -y
+apt install apache2-utils -y
+apt-get install jq -y
+```
+
 ## IP ADDRESS
 | Header                   | IP Address   |
 |--------------------------|--------------|
