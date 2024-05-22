@@ -56,6 +56,8 @@
 			- [Script (Client)](#script-client-1)
 			- [Hasil](#hasil-3)
 		- [nomer 17](#nomer-17)
+			- [Script (Client)](#script-client-2)
+			- [Hasil](#hasil-4)
 		- [nomer 18](#nomer-18)
 		- [nomer 19](#nomer-19)
 		- [nomer 20](#nomer-20)
@@ -393,7 +395,7 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas dan menj
 ![no14](/images/no14.png)
 
 ### nomer 15
-atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. POST /auth/register.
+atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```POST /auth/register```.
 
 #### Script (Client)
 ```bash
@@ -414,7 +416,7 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 Request yang berhasil hanya satu karena username itu bersifat unique pada database **db_it11**, tabel **users** dan juga validasi dari **endpoint API** ```/api/auth/register``` yang mengharuskan username itu bersifat unique, sedangkan file **register.json** hanya dijalankan secara statis selama 100 kali.
 
 ### nomer 16
-atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. POST /auth/login
+atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```POST /auth/login```
 
 #### Script (Client)
 ```bash
@@ -433,6 +435,25 @@ Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
 ![no16](/images/no16.png)
 
 ### nomer 17
+atreides Channel memiliki beberapa endpoint yang harus ditesting sebanyak 100 request dengan 10 request/second. Tambahkan response dan hasil testing pada peta. ```GET /me```
+
+#### Script (Client)
+```bash
+# Mendapatkan Token
+curl -X POST -H "Content-Type: application/json" -d @login.json http://10.69.2.3:8001/api/auth/login > login_token.txt
+
+# Declare token sebagai global variable
+token=$(cat login_token.txt | jq -r '.token')
+
+# Menjalankan Apache Benchmark
+ab -n 100 -c 10 -H "Authorization: Bearer $token" http://10.69.2.3:8001/api/me
+```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+![no17](/images/no17.png)
+
 ### nomer 18
 ### nomer 19
 ### nomer 20
