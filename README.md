@@ -73,6 +73,8 @@
 			- [Hasil (Script 4)](#hasil-script-4)
 			- [Analisis](#analisis)
 		- [Nomor 20](#nomor-20)
+			- [Script (Stilgar)](#script-stilgar-1)
+			- [Hasil](#hasil-6)
 
 ## TOPOLOGI
 
@@ -645,3 +647,34 @@ Screenshot di bawah ini merupakan hasil dari menjalankan Script 4.
 Berdasarkan hasil benchmark dari testing keempat script untuk masing-masing workers, didapati bahwa semakin tinggi nilai yang diberikan untuk masing-masing ```pm.max_children```, ```pm.start_servers```, ```pm.min_spare_servers```, dan ```pm.max_spare_servers``` maka semakin cepat suatu request akan diproses oleh workers.
 
 ### Nomor 20
+Nampaknya hanya menggunakan PHP-FPM tidak cukup untuk meningkatkan performa dari worker maka implementasikan Least-Conn pada Stilgar. Untuk testing kinerja dari worker tersebut dilakukan sebanyak 100 request dengan 10 request/second.
+
+#### Script (Stilgar)
+```bash
+echo 'upstream worker {
+    least_conn;
+    server 10.69.2.3:8001;
+    server 10.69.2.4:8002;
+    server 10.69.2.5:8003;
+}
+
+server {
+    listen 80;
+    server_name atreides.it11.com www.atreides.it11.com;
+
+    location / {
+        proxy_pass http://worker;
+    }
+}
+' > /etc/nginx/sites-available/laravel-lb
+
+service nginx restart
+```
+Setelah menjalankan script di atas, jalankan apache benchmark dari Client.
+
+```ab -n 100 -c 10 -p login.json -T application/json http://atreides.it11.com/api/auth/login```
+
+#### Hasil
+Screenshot di bawah ini merupakan hasil dari menjalankan script di atas.
+
+![no20](/images/no20.png)
