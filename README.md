@@ -34,12 +34,26 @@
 		- [Nomor 4](#nomor-4)
 		- [Nomor 5](#nomor-5)
 		- [Nomor 6](#nomor-6)
+   			- [Scrip](#script-no-6)
+      			- [Hasil](#hasil-no-6) 
 		- [Nomor 7](#nomor-7)
+      			- [Scrip](#script-no-7)
+      			- [Hasil](#hasil-no-7) 
 		- [Nomor 8](#nomor-8)
+      			- [Scrip](#script-no-8)
+      			- [Hasil](#hasil-no-8) 
 		- [Nomor 9](#nomor-9)
+       			- [Scrip](#script-no-9)
+      			- [Hasil](#hasil-no-9) 
 		- [Nomor 10](#nomor-10)
+       			- [Scrip](#script-no-10)
+      			- [Hasil](#hasil-no-10) 
 		- [Nomor 11](#nomor-11)
+       			- [Scrip](#script-no-11)
+      			- [Hasil](#hasil-no-11) 
 		- [Nomor 12](#nomor-12)
+       			- [Scrip](#script-no-12)
+      			- [Hasil](#hasil-no-12) 
 		- [Nomor 13](#nomor-13)
 			- [Script (Chani)](#script-chani)
 			- [Hasil](#hasil)
@@ -217,17 +231,538 @@ iface eth0 inet dhcp
 
 ## JAWABAN
 ### Nomor 0 & 1
+Masukkan script ini pada node irulan dan jalankan
+```
+echo 'zone "harkonen.it11.com" {
+    type master;
+    file "/etc/bind/sites/harkonen.it11.com";
+};
+zone "atreides.it11.com" {
+    type master;
+    file "/etc/bind/sites/atreides.it11.com";
+};' > /etc/bind/named.conf.local
+
+mkdir -p /etc/bind/sites
+cp /etc/bind/db.local /etc/bind/sites/harkonen.it11.com
+cp /etc/bind/db.local /etc/bind/sites/atreides.it11.com
+
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     harkonen.it11.com. root.harkonen.it11.com. (
+                        2023111401      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      harkonen.it11.com.
+@       IN      A       10.69.1.3    ; IP Vladimir
+www     IN      CNAME   harkonen.it11.com.' > /etc/bind/sites/harkonen.it11.com
+
+
+
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     atreides.it11.com. root.atreides.it11.com. (
+                              2023111401         ; Serial
+                              604800              ; Refresh
+                               86400              ; Retry
+                             2419200              ; Expire
+                              604800 )            ; Negative Cache TTL
+;
+@       IN      NS      atreides.it11.com.
+@       IN      A       10.69.2.3    ; IP Leto
+www     IN      CNAME   atreides.it11.com.' > /etc/bind/sites/atreides.it11.com
+
+echo 'options {
+    directory "/var/cache/bind";
+
+    forwarders {
+        192.168.122.1;
+    };
+
+    // dnssec-validation auto;
+
+    allow-query { any; };
+    auth-nxdomain no;    # conform to RFC1035
+    listen-on-v6 { any; };
+};' > /etc/bind/named.conf.options
+
+service bind9 restart
+```
+
 ### Nomor 2
+Masukkan script Mohiam dan Jalankan
+```
+echo ' subnet 10.69.1.0 netmask 255.255.255.0 {
+range 10.69.1.14 10.69.1.28;
+range 10.69.1.49 10.69.1.70;
+}
+' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+```
 ### Nomor 3
+Masukkan script ini pada Mohiam dan Jalankan
+```
+echo'
+subnet 10.69.2.0 netmask 255.255.255.0 {
+range 10.69.2.15 10.69.2.25;
+range 10.69.2.200 10.69.2.210;
+option routers 10.69.2.1;
+}
+
+subnet 10.69.4.0 netmask 255.255.255.0 {
+}
+
+subnet 10.69.3.0 netmask 255.255.255.0 {
+}
+
+' >> /etc/dhcp/dhcpd.conf
+service isc-dhcp-server restart
+```
 ### Nomor 4
+Masukkan ini pada araski dan jalankan
+```
+echo '# Defaults for isc-dhcp-relay initscript
+# sourced by /etc/init.d/isc-dhcp-relay
+# installed at /etc/default/isc-dhcp-relay by the maintainer scripts
+
+#
+# This is a POSIX shell fragment
+#
+
+# What servers should the DHCP relay forward requests to?
+SERVERS="10.69.3.3"
+
+# On what interfaces should the DHCP relay (dhrelay) serve DHCP requests?
+INTERFACES="eth1 eth2 eth3 eth4"
+
+# Additional options that are passed to the DHCP relay daemon?
+OPTIONS=""' > /etc/default/isc-dhcp-relay
+
+service isc-dhcp-relay restart
+
+echo "REMINDER 1: Jalankan nano /etc/sysctl.conf dan uncomment net.ipv4.ip_forward=1. Setelah itu jalankan service isc-dhcp-relay restart."
+echo "REMINDER 2: Setelah itu, restart semua client."
+```
+
+Masukkan ini pada mohiam dan jalankan
+```
+echo ' 
+subnet 10.69.1.0 netmask 255.255.255.0 {
+range 10.69.1.14 10.69.1.28;
+range 10.69.1.49 10.69.1.70;
+option routers 10.69.1.1;
+option broadcast-address 10.69.1.255;
+option domain-name-servers 10.69.3.2;
+}
+
+subnet 10.69.2.0 netmask 255.255.255.0 {
+range 10.69.2.15 10.69.2.25;
+range 10.69.2.200 10.69.2.210;
+option routers 10.69.2.1;
+option broadcast-address 10.69.2.255;
+option domain-name-servers 10.69.3.2;
+}
+
+subnet 10.69.3.0 netmask 255.255.255.0 {
+}
+
+subnet 10.69.4.0 netmask 255.255.255.0 {
+}
+
+
+' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+```
+
 ### Nomor 5
+Masukkan ini pada dhcp server dan jalankan
+```
+echo ' 
+subnet 10.69.1.0 netmask 255.255.255.0 {
+range 10.69.1.14 10.69.1.28;
+range 10.69.1.49 10.69.1.70;
+option routers 10.69.1.1;
+option broadcast-address 10.69.1.255;
+option domain-name-servers 10.69.3.2;
+default-lease-time 300;
+max-lease-time 5220;
+}
+
+subnet 10.69.2.0 netmask 255.255.255.0 {
+range 10.69.2.15 10.69.2.25;
+range 10.69.2.200 10.69.2.210;
+option routers 10.69.2.1;
+option broadcast-address 10.69.2.255;
+option domain-name-servers 10.69.3.2;
+default-lease-time 1200;
+max-lease-time 5220;
+}
+
+subnet 10.69.3.0 netmask 255.255.255.0 {
+}
+
+subnet 10.69.4.0 netmask 255.255.255.0 {
+}
+
+
+' > /etc/dhcp/dhcpd.conf
+
+service isc-dhcp-server restart
+```
 ### Nomor 6
+#### script no 6
+Masukkan script dibawah pada semua worker PHP untuk upload nginx dan jalankan
+```
+wget -O '/var/www/harkonen.it11.com' 'https://drive.google.com/u/0/uc?id=1lmnXJUbyx1JDt2OA5z_1dEowxozfkn30&export=download'
+unzip -o /var/www/harkonen.it11.com -d /var/www/
+rm /var/www/harkonen.it11.com
+mv /var/www/modul-3 /var/www/harkonen.it11.com
+
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/harkonen.it11.com
+ln -s /etc/nginx/sites-available/harkonen.it11.com /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
+```
+Lakukan pengujian seperti ini
+```
+lynx http://harkonen.it11.com/
+```
+#### hasil no 6
+Dan didapatkan hasil web seperti ini
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/1a1940bd-f327-4367-898d-36c9bd2a40f0)
+
+Kemudian masukkan ini pada 
 ### Nomor 7
-### Nomor 8
+#### script no 7
+Jalankan ini pada load balancer dan jalankan. 
+```
+cp /etc/nginx/sites-available/default /etc/nginx/sites-available/lb_php
+
+echo ' upstream worker {
+        #least_conn;
+        #ip_hash;
+    server 10.69.1.3;
+    server 10.69.1.4;
+    server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker;
+    }
+} ' > /etc/nginx/sites-available/lb_php
+
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+rm /etc/nginx/sites-enabled/default
+
+service nginx restart
+
+```
+
+Masukkan ini pada Irulan
+```
+echo ';
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     harkonen.it11.com. root.harkonen.it11.com. (
+                        2023111401      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      harkonen.it11.com.
+@       IN      A       10.69.4.3    ; IP lb Stilgar
+www     IN      CNAME   harkonen.it11.com.' > /etc/bind/sites/harkonen.it11.com
+
+echo '
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     atreides.it11.com. root.atreides.it11.com. (
+                        2023111401      ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@       IN      NS      atreides.it11.com.
+@       IN      A       10.69.4.3     ; IP Lb Stilgar
+www     IN      CNAME   atreides.it11.com.' > /etc/bind/sites/atreides.it11.com
+
+service bind9 restart
+```
+Setelah menjalankan keduanya. Lakukan pengujian seperti ini pada client.
+```
+ab -n 5000 -c 150 http://harkonen.it11.com/
+```
+#### hasil no 7
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/1932375d-86c7-4951-aaf1-f13d1d235541)
+
+### Nomor 8 (link report: [link](https://docs.google.com/document/d/1wMelXEbm-rLmtxXY8WHAmzTNEIVmZdChyM3_uTNQoYs/edit))
+#### script no 8
+Masukkan code ini pada stilgar dan uncomment untuk menguji algoritma yang di inginkan
+```
+echo ' upstream worker_round {
+	#least_conn;
+	#ip_hash;
+    server 10.69.1.3;
+    server 10.69.1.4;
+    server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker_round;
+    }
+} ' > /etc/nginx/sites-available/lb_php
+
+rm -f /etc/nginx/sites-enabled/lb_php
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+service nginx restart
+```
+
+Pada Dmitri lakukan pengujian pada tiap algoritmanya seperti ini
+```
+ab -n 500 -c 50 http://harkonen.it11.com/ > round_robin.txt
+ab -n 500 -c 50 http://harkonen.it11.com/ > least_connection.txt
+ab -n 500 -c 50 http://harkonen.it11.com/ > ip_hash.txt
+```
+
+Ambil hasil tiap report dari semua algoritma menggunakan ini
+```
+echo '[
+  {"algorithm": "Round Robin", "req_per_sec": '$(grep "Requests per second" round_robin.txt | awk '{print $4}')'},
+  {"algorithm": "Least-Connection", "req_per_sec": '$(grep "Requests per second" least_connection.txt | awk '{print $4}')'},
+  {"algorithm": "IP Hash", "req_per_sec": '$(grep "Requests per second" ip_hash.txt | awk '{print $4}')'}
+]' > lb_results.json
+
+cat  lb_results.json
+```
+#### Hasil no 8
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/0f3453fd-5612-424a-906d-dc68969d028e)
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/8d7001e2-6475-4be0-b33f-c30dbcaea011)
+
+
 ### Nomor 9
+#### script no 9
+untuk melakukan pengujian dengan jumlah worker yang berbeda lakukan comment pada setiap worker, seperti ini pada stilgar
+```
+echo ' upstream worker_least {
+	least_conn;
+       #server 10.69.1.3;
+       server 10.69.1.4;
+       server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    server_name _;
+
+    location / {
+        proxy_pass http://worker_least;
+    }
+} ' > /etc/nginx/sites-available/lb_php
+
+rm -f /etc/nginx/sites-enabled/lb_php
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+service nginx restart
+```
+Dan lakukan pengujian seperti ini di client
+```
+//3 worker
+ab -n 1000 -c 10 http://www.harkonen.it11.com/ > 3worker.txt
+//2 worker
+ab -n 1000 -c 10 http://www.harkonen.it11.com/ > 2worker.txt
+//1 worker
+ab -n 1000 -c 10 http://www.harkonen.it11.com/ > 1worker.txt
+```
+Hasilnya di catat dengan menggunakan ini
+```
+echo '[
+  {"worker": "3 worker", "req_per_sec": '$(grep "Requests per second" 3worker.txt | awk '{print $4}')'},
+  {"worker": "2 worker", "req_per_sec": '$(grep "Requests per second" 2worker.txt | awk '{print $4}')'},
+  {"worker": "1 worker", "req_per_sec": '$(grep "Requests per second" 1worker.txt | awk '{print $4}')'}
+]' > lb_worker_results.json
+
+cat  lb_worker_results.json
+```
+
+#### Hasil no 9
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/b72e0b41-d15f-4b84-9b95-9828fd0f652a)
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/efce4a79-512e-47c8-a7eb-ae9bddfb2597)
+
 ### Nomor 10
+#### script no 10
+Lakukan ini pada stilgar dan jalankan
+```
+echo 'REMINDER : masukkan password kcksit11'
+mkdir /etc/nginx/supersecret/
+htpasswd -c /etc/nginx/supersecret/htpasswd secmart
+
+echo '
+upstream worker_round_robin {
+    server 10.69.1.3;
+    server 10.69.1.4;
+    server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker_round_robin;
+    }
+
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+}' > /etc/nginx/sites-available/lb_php
+```
+#### Hasil no 10
+Dengan melakukan `lynx http://harkonen.it11.com/`
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/fd324014-687b-45b7-9a3d-48f44f4453dc)
+
 ### Nomor 11
+#### script no 11
+Lakukan ini pada stilgar
+```
+echo '
+upstream worker-dune {
+    server 10.69.1.3;
+    server 10.69.1.4;
+    server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        proxy_pass http://worker-dune;
+    }
+
+    location /dune {
+        proxy_pass https://www.dunemovie.com.au/;
+        proxy_set_header Host www.dunemovie.com.au;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+}' > /etc/nginx/sites-available/lb_php
+
+
+rm -f /etc/nginx/sites-enabled/lb_php
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+service nginx restart
+```
+#### Hasil no 11
+Didapatkan Hasil seperti ini
+
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/fa0bc2e9-e963-48db-ab53-00c873859f41)
+
+
 ### Nomor 12
+#### script no 12
+Jalankan ini pada stilgar
+```
+echo '
+upstream worker-dune {
+    server 10.69.1.3;
+    server 10.69.1.4;
+    server 10.69.1.5;
+}
+
+server {
+    listen 80;
+    server_name harkonen.it11.com www.harkonen.it11.com;
+
+    root /var/www/html;
+    index index.html index.htm index.nginx-debian.html;
+
+    location / {
+        allow 10.69.1.37;
+        allow 10.69.1.67;
+        allow 10.69.2.203;
+        allow 10.69.2.207;
+        deny all;
+        proxy_pass http://worker-dune;
+    }
+
+    location /dune {
+        proxy_pass https://www.dunemovie.com.au/;
+        proxy_set_header Host www.dunemovie.com.au;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    auth_basic "Restricted Content";
+    auth_basic_user_file /etc/nginx/supersecret/htpasswd;
+}' > /etc/nginx/sites-available/lb_php
+
+
+rm -f /etc/nginx/sites-enabled/lb_php
+ln -s /etc/nginx/sites-available/lb_php /etc/nginx/sites-enabled/
+
+service nginx restart
+
+```
+#### Hasil no 12
+Jalankan `lynx http://harkonen.it11.com/` di dmitri
+![image](https://github.com/trdkhardani/Jarkom-Modul-3-IT11-2024/assets/115559151/1e2d5cc9-3e6e-4e15-a280-02040d69d9cf)
 
 ### Nomor 13
 Semua data yang diperlukan, diatur pada Chani dan harus dapat diakses oleh Leto, Duncan, dan Jessica.
